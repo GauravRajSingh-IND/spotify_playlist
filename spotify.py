@@ -10,7 +10,7 @@ class Spotify:
 
         self.client_id = os.getenv('spotify_client_id')
         self.client_secret = os.getenv('spotify_client_secret')
-        self.access_token = None
+        self.access_token = self.get_access_token()
 
 
     def get_access_token(self):
@@ -29,8 +29,24 @@ class Spotify:
         # Step 3: Parse the response
         if response.status_code == 200:
             access_token = response.json()['access_token']
-            self.access_token = access_token
+            return access_token
         else:
-            self.access_token = None
+            return None
 
+    def get_song_name(self, song_name):
 
+        search_url = f'https://api.spotify.com/v1/search?q={song_name}&type=track'
+
+        headers = {
+            'Authorization': f'Bearer {self.access_token}'
+        }
+
+        try:
+            response = requests.get(search_url, headers=headers)
+
+            if response.status_code == 200:
+                return response.json()['tracks']['items'][0]['artists'][0]['id']
+            else:
+                return None
+        except requests.RequestException as e:
+            return f"Error searching for song: {response.status_code} - {response.text}"
