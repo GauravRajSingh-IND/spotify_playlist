@@ -38,7 +38,3 @@ class BillBoard:
 
         return songs_image, songs_rank, songs_title
 
-
-
-
-
