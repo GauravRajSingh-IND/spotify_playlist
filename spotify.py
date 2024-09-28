@@ -1,3 +1,5 @@
+from http.client import responses
+
 from dotenv import load_dotenv
 import requests
 import os
@@ -45,7 +47,7 @@ class Spotify:
             response = requests.get(search_url, headers=headers)
 
             if response.status_code == 200:
-                return response.json()['tracks']['items'][0]['artists'][0]['id']
+                return response.json()['tracks']['items'][0]['id']
             else:
                 return None
         except requests.RequestException as e:
@@ -74,3 +76,6 @@ class Spotify:
             return f"Error searching for song: {response.status_code} - {response.text}"
 
 
+test = Spotify()
+responses =  test.get_track(song_ID="3y2cIKLjiOlp1Np37WiUdH")
+print(responses)
