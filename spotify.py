@@ -61,13 +61,26 @@ class Spotify:
             'Authorization': f'Bearer {self.access_token}'
         }
 
-        params = {
-            "id":song_ID,
-        }
-
         try:
             response = requests.get(search_url, headers=headers)
 
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return None
+        except requests.RequestException as e:
+            return f"Error searching for song: {response.status_code} - {response.text}"
+
+    def get_user(self):
+
+        url = "https://api.spotify.com/v1/me"
+
+        headers = {
+            'Authorization': f'Bearer {self.access_token}'
+        }
+        try:
+            response = requests.get(url, headers=headers)
+            print(response.status_code)
             if response.status_code == 200:
                 return response.json()
             else:
