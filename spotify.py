@@ -74,8 +74,3 @@ class Spotify:
                 return None
         except requests.RequestException as e:
             return f"Error searching for song: {response.status_code} - {response.text}"
-
-
-test = Spotify()
-responses =  test.get_track(song_ID="3y2cIKLjiOlp1Np37WiUdH")
-print(responses)
