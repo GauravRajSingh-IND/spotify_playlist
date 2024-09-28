@@ -33,7 +33,7 @@ class Spotify:
         else:
             return None
 
-    def get_song_name(self, song_name):
+    def get_song_id(self, song_name):
 
         search_url = f'https://api.spotify.com/v1/search?q={song_name}&type=track'
 
@@ -50,3 +50,27 @@ class Spotify:
                 return None
         except requests.RequestException as e:
             return f"Error searching for song: {response.status_code} - {response.text}"
+
+    def get_track(self, song_ID:str):
+
+        search_url = f"https://api.spotify.com/v1/tracks/{song_ID}"
+
+        headers = {
+            'Authorization': f'Bearer {self.access_token}'
+        }
+
+        params = {
+            "id":song_ID,
+        }
+
+        try:
+            response = requests.get(search_url, headers=headers)
+
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return None
+        except requests.RequestException as e:
+            return f"Error searching for song: {response.status_code} - {response.text}"
+
+
